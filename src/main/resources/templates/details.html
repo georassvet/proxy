@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{fragments/main_layout}">
+<head>
+    <title>GroupDetails</title>
+</head>
+<body>
+<div layout:fragment="content" class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <a class="btn btn-sm btn-primary" th:href="@{'/tasks/' + ${id}}">Tasks</a>
+            <form method="post" th:action="@{/proxy}" th:object="${form}">
+                <input type="hidden" class="form-control" th:field="*{id}">
+                <input type="hidden" class="form-control" th:field="*{groupId}">
+            <div class="b-row">
+                <div class="b-col">
+                    <label for="name" class="form-label">Name</label>
+                    <input th:field="*{name}" type="text" class="form-control" id="name">
+                </div>
+                <div class="b-col">
+                    <label for="remoteHost" class="form-label">RemoteHost</label>
+                    <input th:field="*{remoteHost}" type="text" class="form-control" id="remoteHost">
+                </div>
+                <div class="b-col">
+                    <label for="remotePort" class="form-label">RemotePort</label>
+                    <input th:field="*{remotePort}" type="text" class="form-control" id="remotePort">
+                </div>
+                <div class="b-col">
+                    <label for="delay" class="form-label">DefaultDelay</label>
+                    <input th:field="*{delay}" type="text" class="form-control" id="delay">
+                </div>
+                <div class="b-col">
+                    <input type="submit" value="Save">
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <table class="table table-sm">
+            <thead>
+            <tr>
+                <th>LocalPort</th>
+                <th>Name</th>
+                <th>RemoteHost</th>
+                <th>RemotePort</th>
+                <th>DefaultDelay</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${items}">
+                <td th:text="${item.localPort}"></td>
+                <td th:text="${item.name}"></td>
+                <td th:text="${item.remoteHost}"></td>
+                <td th:text="${item.remotePort}"></td>
+                <td th:text="${item.defaultDelay}"></td>
+                <td>
+                    <div class="btn-group">
+                        <a class="btn btn-sm" th:href="@{'/proxy/edit/' + ${item.id}}">Edit</a>
+                        <form th:action="@{/proxy/delete}" method="post" th:object="${deleteForm}">
+                            <input type="hidden" class="form-control" name="id" th:value="${item.id}">
+                            <input type="hidden" class="form-control" name="groupId" th:value="${item.group.id}">
+                            <input class="btn btn-sm" type="submit" value="Delete">
+                        </form>
+                    </div>
+                </td>
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

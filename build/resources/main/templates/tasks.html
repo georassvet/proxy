@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{fragments/main_layout}">
+<head>
+    <title>GroupDetails</title>
+</head>
+<body>
+<div layout:fragment="content" class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <form method="post" th:action="@{'/tasks/' + ${form.groupId}}" th:object="${form}">
+                <div class="row">
+                    <input type="hidden" class="form-control" th:field="*{groupId}">
+                    <div class="col-md-3">
+                        <label for="proxyId" class="form-label">Proxy</label>
+                        <select size="5" class="form-select" th:field="*{proxyId}" aria-label="Default select example" id="proxyId">
+                            <option th:each="item : ${items}"
+                                    th:text="${item.name}"
+                                    th:value="${item.id}">
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="startDelay" class="form-label">StartDelay</label>
+                        <input th:field="*{startDelay}" type="text" class="form-control" id="startDelay">
+                    </div>
+                    <div class="col-md-2">
+                        <label for="stopDelay" class="form-label">StopDelay</label>
+                        <input th:field="*{stopDelay}" type="text" class="form-control" id="stopDelay">
+                    </div>
+                    <div class="col-md-2">
+                        <label for="stepDelay" class="form-label">StepDelay</label>
+                        <input th:field="*{stepDelay}" type="text" class="form-control" id="stepDelay">
+                    </div>
+                    <div class="col-md-2">
+                        <label for="timeStep" class="form-label">TimeStep</label>
+                        <input th:field="*{timeStep}" type="text" class="form-control" id="timeStep">
+                    </div>
+                    <div class="col-md-2">
+                        <label for="startAt" class="form-label">StartAt</label>
+                        <input th:field="*{startAt}"  type="datetime-local" class="form-control" id="startAt">
+                    </div>
+                    <div class="col-md-1">
+                        <input type="submit" value="Save">
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <table class="table table-sm">
+            <thead>
+            <tr>
+                <th>Time</th>
+                <th>Delay</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="task : ${tasks}">
+                <td th:text="${task.time}"></td>
+                <td th:text="${task.delay}"></td>
+                <td>
+                    <div class="btn-group">
+                        <form th:action="@{/deleteDelayTask}" method="delete">
+                            <button class="btn btn-sm" type="submit" th:name="id" th:value="${task.id}">Delete</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
